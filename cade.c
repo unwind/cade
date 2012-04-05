@@ -227,10 +227,24 @@ static Thunk get_cycle_refetch(DCPU_State *cpu)
 	return next;
 }
 
-static Thunk cycle_if(DCPU_State *cpu)
+static Thunk cycle_add(DCPU_State *cpu)
 {
-	printf(" in IF, burning a cycle\n");
-	printf("ending cycle %u\n", cpu->timer++);
+	const uint32_t	tmp = *cpu->val_a + *cpu->val_b;
+
+	*cpu->val_a = tmp & 0xffff;
+	cpu->o = (tmp > 0xffff);
+	printf("in ADD, ending cycle %u\n", cpu->timer++);
+
+	return get_cycle_refetch(cpu);
+}
+
+static Thunk cycle_sub(DCPU_State *cpu)
+{
+	const uint32_t	tmp = *cpu->val_a - *cpu->val_b;
+
+	*cpu->val_a = tmp & 0xffff;
+	cpu->o = (tmp > 0xffff) ? 0xffff : 0;
+	printf("in SUB, ending cycle %u\n", cpu->timer++);
 
 	return get_cycle_refetch(cpu);
 }
@@ -251,6 +265,14 @@ static Thunk cycle_shr(DCPU_State *cpu)
 
 	cpu->o = (*cpu->val_a << 16) >> *cpu->val_b;
 	*cpu->val_a = (res & 0xffff);
+
+	return get_cycle_refetch(cpu);
+}
+
+static Thunk cycle_if(DCPU_State *cpu)
+{
+	printf(" in IF, burning a cycle\n");
+	printf("ending cycle %u\n", cpu->timer++);
 
 	return get_cycle_refetch(cpu);
 }
@@ -277,10 +299,12 @@ static Thunk cycle_jsr(DCPU_State *cpu)
 /* The base of all instruction cycles: fetch a new instruction, and decode it. */
 static Thunk cycle_fetch(DCPU_State *cpu)
 {
-	const Thunk	next_if = { cycle_if };
-	const Thunk	next_jsr = { cycle_jsr };
+	const Thunk	next_add = { cycle_add };
+	const Thunk	next_sub = { cycle_sub };
 	const Thunk	next_shl = { cycle_shl };
 	const Thunk	next_shr = { cycle_shr };
+	const Thunk	next_if = { cycle_if };
+	const Thunk	next_jsr = { cycle_jsr };
 	uint32_t	tmp;
 
 	if(cpu->inst == 0)
@@ -354,15 +378,15 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 		break;
 	case OP_ADD:
 		printf("executing ADD\n");
-		tmp = *cpu->val_a + *cpu->val_b;
-		*cpu->val_a = tmp & 0xffff;
-		cpu->o = (tmp > 0xffff);
-		break;
+		return next_add;
 	case OP_SUB:
 		printf("executing SUB\n");
-		tmp = *cpu->val_a - *cpu->val_b;
+		return next_sub;
+	case OP_MUL:
+		printf("executing MUL\n");
+		tmp = *cpu->val_a * *cpu->val_b;
 		*cpu->val_a = tmp & 0xffff;
-		cpu->o = (tmp > 0xffff) ? 0xffff : 0;
+		cpu->o = (tmp >> 16) & 0xffff;
 		break;
 	case OP_SHL:
 		printf("evaluating SHL\n");
