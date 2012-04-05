@@ -243,6 +243,16 @@ static Thunk cycle_shl(DCPU_State *cpu)
 	return get_cycle_refetch(cpu);
 }
 
+static Thunk cycle_shr(DCPU_State *cpu)
+{
+	const uint32_t	res = *cpu->val_a >> *cpu->val_b;
+
+	cpu->o = (*cpu->val_a << 16) >> *cpu->val_b;
+	*cpu->val_a = (res & 0xffff);
+
+	return get_cycle_refetch(cpu);
+}
+
 static Thunk cycle_skip(DCPU_State *cpu)
 {
 	const uint16_t	inst = cpu->memory[cpu->pc];
@@ -267,6 +277,7 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 	const Thunk	next_if = { cycle_if };
 	const Thunk	next_jsr = { cycle_jsr };
 	const Thunk	next_shl = { cycle_shl };
+	const Thunk	next_shr = { cycle_shr };
 
 	if(cpu->inst == 0)
 	{
@@ -351,6 +362,9 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 	case OP_SHL:
 		printf("evaluating SHL\n");
 		return next_shl;
+	case OP_SHR:
+		printf("evaluating SHR\n");
+		return next_shr;
 	case OP_IFE:
 		printf("evaluating IFE [%04x == 0x%04x]\n", *cpu->val_a, *cpu->val_b);
 		cpu->skip = !(*cpu->val_a == *cpu->val_b);
@@ -397,8 +411,7 @@ void DCPU_PrintState(const DCPU_State *cpu)
 	const char	*reg_names[] = { "A", "B", "C", "X", "Y", "Z", "I", "J" };
 	int		i;
 
-	printf("PC=0x%04x\nSP=0x%04x\n", cpu->pc, cpu->sp);
-	printf("Next instruction: 0x%04x\n", cpu->memory[cpu->pc]);
+	printf("PC=0x%04x [0x%04x]\nSP=0x%04x\n", cpu->pc, cpu->memory[cpu->pc], cpu->sp);
 	printf("Registers:\n");
 	for(i = 0; i < sizeof cpu->registers / sizeof *cpu->registers; i++)
 		printf("%6s ", reg_names[i]);
