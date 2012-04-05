@@ -231,6 +231,7 @@ static Thunk cycle_if(DCPU_State *cpu)
 {
 	printf(" in IF, burning a cycle\n");
 	printf("ending cycle %u\n", cpu->timer++);
+
 	return get_cycle_refetch(cpu);
 }
 
@@ -240,6 +241,7 @@ static Thunk cycle_shl(DCPU_State *cpu)
 
 	*cpu->val_a = (res & 0xffff);
 	cpu->o = res >> 16;
+
 	return get_cycle_refetch(cpu);
 }
 
@@ -259,6 +261,7 @@ static Thunk cycle_skip(DCPU_State *cpu)
 	printf("skip of instruction 0x%04x\n", inst);
 	cpu->pc += DCPU_InstructionLength(inst);
 	cpu->skip = 0;
+
 	return get_cycle_refetch(cpu);
 }
 
@@ -278,6 +281,7 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 	const Thunk	next_jsr = { cycle_jsr };
 	const Thunk	next_shl = { cycle_shl };
 	const Thunk	next_shr = { cycle_shr };
+	uint32_t	tmp;
 
 	if(cpu->inst == 0)
 	{
@@ -310,15 +314,8 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 			}
 		}
 		break;
-	case OP_SET:
-	case OP_ADD:
-	case OP_SUB:
-	case OP_SHL:
-	case OP_SHR:
-	case OP_IFE:
-	case OP_IFN:
-	case OP_IFG:
-	case OP_IFB:
+	default:
+		/* All basic instructions have the same arguments. */
 		if(cpu->val_a == NULL)
 		{
 			if(eval_value(cpu, (cpu->inst >> 4) & 0x3f, 1, &cpu->val_a))
@@ -355,9 +352,17 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 		printf("executing SET\n");
 		*cpu->val_a = *cpu->val_b;
 		break;
+	case OP_ADD:
+		printf("executing ADD\n");
+		tmp = *cpu->val_a + *cpu->val_b;
+		*cpu->val_a = tmp & 0xffff;
+		cpu->o = (tmp > 0xffff);
+		break;
 	case OP_SUB:
 		printf("executing SUB\n");
-		*cpu->val_a -= *cpu->val_b;
+		tmp = *cpu->val_a - *cpu->val_b;
+		*cpu->val_a = tmp & 0xffff;
+		cpu->o = (tmp > 0xffff) ? 0xffff : 0;
 		break;
 	case OP_SHL:
 		printf("evaluating SHL\n");
@@ -411,7 +416,7 @@ void DCPU_PrintState(const DCPU_State *cpu)
 	const char	*reg_names[] = { "A", "B", "C", "X", "Y", "Z", "I", "J" };
 	int		i;
 
-	printf("PC=0x%04x [0x%04x]\nSP=0x%04x\n", cpu->pc, cpu->memory[cpu->pc], cpu->sp);
+	printf("PC=0x%04x [0x%04x]\nSP=0x%04x\nO=0x%04x\n", cpu->pc, cpu->memory[cpu->pc], cpu->sp, cpu->o);
 	printf("Registers:\n");
 	for(i = 0; i < sizeof cpu->registers / sizeof *cpu->registers; i++)
 		printf("%6s ", reg_names[i]);
