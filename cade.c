@@ -167,7 +167,7 @@ static int eval_value(DCPU_State *cpu, DCPU_Value value, int dest, uint16_t **va
 	{
 		/* Register value, evaluates immediately. */
 		*value_result = &cpu->registers[value];
-		printf(" register value, 0x%04x\n", **value_result);
+		printf(" register %c (current value 0x%04x)\n", "ABCXYZIJ"[value - VAL_REG_A], **value_result);
 	}
 	else if(value >= VAL_DEREF_REG_A && value <= VAL_DEREF_REG_J)
 	{
@@ -269,6 +269,13 @@ static Thunk cycle_shr(DCPU_State *cpu)
 	return get_cycle_refetch(cpu);
 }
 
+static Thunk cycle_and(DCPU_State *cpu)
+{
+	*cpu->val_a = *cpu->val_a & *cpu->val_b;
+
+	return get_cycle_refetch(cpu);
+}
+
 static Thunk cycle_if(DCPU_State *cpu)
 {
 	printf(" in IF, burning a cycle\n");
@@ -303,6 +310,7 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 	const Thunk	next_sub = { cycle_sub };
 	const Thunk	next_shl = { cycle_shl };
 	const Thunk	next_shr = { cycle_shr };
+	const Thunk	next_and = { cycle_and };
 	const Thunk	next_if = { cycle_if };
 	const Thunk	next_jsr = { cycle_jsr };
 	uint32_t	tmp;
@@ -394,6 +402,9 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 	case OP_SHR:
 		printf("evaluating SHR\n");
 		return next_shr;
+	case OP_AND:
+		printf("evaluating AND\n");
+		return next_and;
 	case OP_IFE:
 		printf("evaluating IFE [%04x == 0x%04x]\n", *cpu->val_a, *cpu->val_b);
 		cpu->skip = !(*cpu->val_a == *cpu->val_b);
@@ -473,10 +484,13 @@ int main(void)
 				0x7dc1, 0x001a, 0xa861, 0x7c01, 0x2000, 0x2161, 0x2000, 0x8463,
 				0x806d, 0x7dc1, 0x000d, 0x9031, 0x7c10, 0x0018, 0x7dc1, 0x001a,
 				0x9037, 0x61c1, 0x7dc1, 0x001a, 0x0000, 0x0000, 0x0000, 0x0000 };
+	const uint16_t test_and[] = { 0x7c01, 0xffff, 0x7c11, 0x5555, 0x0409 };
 
 	DCPU_Init(&cpu);
-	DCPU_Load(&cpu, 0, test, sizeof test / sizeof *test);
+/*	DCPU_Load(&cpu, 0, test, sizeof test / sizeof *test);
 	DCPU_Execute(&cpu, 85);
+*/	DCPU_Load(&cpu, 0, test_and, sizeof test_and / sizeof *test_and);
+	DCPU_Execute(&cpu, 6);
 	DCPU_PrintState(&cpu);
 
 	return EXIT_SUCCESS;
