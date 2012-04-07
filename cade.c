@@ -541,14 +541,14 @@ void DCPU_PrintState(const DCPU_State *cpu)
 	const char	*reg_names = "ABCXYZIJ";
 	int		i;
 
-	printf("PC=0x%04x [0x%04x]\nSP=0x%04x\nO=0x%04x\n", cpu->pc, cpu->memory[cpu->pc], cpu->sp, cpu->o);
-	printf("Registers:\n");
+	printf("PC     SP     O      ");
 	for(i = 0; i < sizeof cpu->registers / sizeof *cpu->registers; i++)
 		printf("%-6c ", reg_names[i]);
 	printf("\n");
+	printf("0x%04x 0x%04x 0x%04x ",
+		cpu->pc, cpu->sp, cpu->o);
 	for(i = 0; i < sizeof cpu->registers / sizeof *cpu->registers; i++)
 		printf("0x%04x ", cpu->registers[i]);
-	printf("\n");
 	printf("\n");
 }
 
