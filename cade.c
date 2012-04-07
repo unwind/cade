@@ -207,6 +207,11 @@ static int eval_value(DCPU_State *cpu, DCPU_Value value, int dest, uint16_t **va
 		*value_result = &cpu->pc;
 		printf(" PC target\n");
 	}
+	else if(value == VAL_O)
+	{
+		*value_result = &cpu->o;
+		printf(" O, value 0x%04x\n", **value_result);
+	}
 	else if(value == VAL_SUCC)
 	{
 		*value_result = &cpu->memory[cpu->memory[cpu->pc++]];
