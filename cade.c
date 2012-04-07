@@ -259,6 +259,49 @@ static Thunk cycle_mul(DCPU_State *cpu)
 	return get_cycle_refetch(cpu);
 }
 
+static Thunk cycle_divmod2(DCPU_State *cpu)
+{
+	printf("in middle cycle of DIV/MOD, ending cycle %u\n", cpu->timer++);
+
+	return get_cycle_refetch(cpu);
+}
+
+static Thunk cycle_div1(DCPU_State *cpu)
+{
+	const Thunk	next_div2 = { cycle_divmod2 };
+
+	if(*cpu->val_b != 0)
+	{
+		const uint32_t	tmp = (*cpu->val_a << 16) / *cpu->val_b;
+
+		*cpu->val_a = *cpu->val_a / *cpu->val_b;
+		cpu->o = tmp >> 16;
+	}
+	else
+	{
+		*cpu->val_a = cpu->o = 0;
+	}
+	printf("in first cycle of DIV, ending cycle %u\n", cpu->timer++);
+
+	return next_div2;
+}
+
+static Thunk cycle_mod1(DCPU_State *cpu)
+{
+	const Thunk	next_mod2 = { cycle_divmod2 };
+
+	if(*cpu->val_b != 0)
+	{
+		*cpu->val_a = *cpu->val_a % *cpu->val_b;
+	}
+	else
+		*cpu->val_a = 0;
+
+	printf("in first cycle of MOD, ending cycle %u\n", cpu->timer++);
+
+	return next_mod2;
+}
+
 static Thunk cycle_shl(DCPU_State *cpu)
 {
 	const uint32_t	res = *cpu->val_a << *cpu->val_b;
@@ -290,6 +333,7 @@ static Thunk cycle_if(DCPU_State *cpu)
 static Thunk cycle_skip(DCPU_State *cpu)
 {
 	const uint16_t	inst = cpu->memory[cpu->pc];
+
 	printf("skip of instruction 0x%04x\n", inst);
 	cpu->pc += DCPU_InstructionLength(inst);
 	cpu->skip = 0;
@@ -310,6 +354,7 @@ static Thunk cycle_jsr(DCPU_State *cpu)
 static Thunk cycle_fetch(DCPU_State *cpu)
 {
 	const Thunk	next_add = { cycle_add }, next_sub = { cycle_sub}, next_mul = { cycle_mul };
+	const Thunk	next_div = { cycle_div1 }, next_mod = { cycle_mod1 };
 	const Thunk	next_shl = { cycle_shl };
 	const Thunk	next_shr = { cycle_shr };
 	const Thunk	next_if = { cycle_if };
@@ -393,6 +438,12 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 	case OP_MUL:
 		printf("executing MUL\n");
 		return next_mul;
+	case OP_DIV:
+		printf("executing DIV\n");
+		return next_div;
+	case OP_MOD:
+		printf("executing MOD\n");
+		return next_mod;
 	case OP_SHL:
 		printf("evaluating SHL\n");
 		return next_shl;
@@ -501,12 +552,16 @@ int main(void)
 				0x806d, 0x7dc1, 0x000d, 0x9031, 0x7c10, 0x0018, 0x7dc1, 0x001a,
 				0x9037, 0x61c1, 0x7dc1, 0x001a, 0x0000, 0x0000, 0x0000, 0x0000 };
 	const uint16_t test_and[] = { 0x7c01, 0xffff, 0x7c11, 0x5555, 0x0409 };
+	const uint16_t test_div[] = { 0x7c01, 0xffff, 0x7c11, 0x0471, 0x0405 };
+	const uint16_t test_mod[] = { 0x7c01, 0xffff, 0x7c11, 0x0471, 0x0406 };
 
 	DCPU_Init(&cpu);
 /*	DCPU_Load(&cpu, 0, test, sizeof test / sizeof *test);
 	DCPU_Execute(&cpu, 85);
-*/	DCPU_Load(&cpu, 0, test_and, sizeof test_and / sizeof *test_and);
-	DCPU_Execute(&cpu, 6);
+	DCPU_Load(&cpu, 0, test_and, sizeof test_and / sizeof *test_and);
+*/	
+	DCPU_Load(&cpu, 0, test_mod, sizeof test_mod / sizeof *test_mod);
+	DCPU_Execute(&cpu, 7);
 	DCPU_PrintState(&cpu);
 
 	return EXIT_SUCCESS;
