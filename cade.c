@@ -249,6 +249,16 @@ static Thunk cycle_sub(DCPU_State *cpu)
 	return get_cycle_refetch(cpu);
 }
 
+static Thunk cycle_mul(DCPU_State *cpu)
+{
+	const uint32_t	tmp = *cpu->val_a * *cpu->val_b;
+
+	*cpu->val_a = tmp & 0xffff;
+	cpu->o = (tmp >> 16) & 0xffff;
+
+	return get_cycle_refetch(cpu);
+}
+
 static Thunk cycle_shl(DCPU_State *cpu)
 {
 	const uint32_t	res = *cpu->val_a << *cpu->val_b;
@@ -265,27 +275,6 @@ static Thunk cycle_shr(DCPU_State *cpu)
 
 	cpu->o = (*cpu->val_a << 16) >> *cpu->val_b;
 	*cpu->val_a = (res & 0xffff);
-
-	return get_cycle_refetch(cpu);
-}
-
-static Thunk cycle_and(DCPU_State *cpu)
-{
-	*cpu->val_a = *cpu->val_a & *cpu->val_b;
-
-	return get_cycle_refetch(cpu);
-}
-
-static Thunk cycle_bor(DCPU_State *cpu)
-{
-	*cpu->val_a = *cpu->val_a | *cpu->val_b;
-
-	return get_cycle_refetch(cpu);
-}
-
-static Thunk cycle_xor(DCPU_State *cpu)
-{
-	*cpu->val_a = *cpu->val_a ^ *cpu->val_b;
 
 	return get_cycle_refetch(cpu);
 }
@@ -320,14 +309,11 @@ static Thunk cycle_jsr(DCPU_State *cpu)
 /* The base of all instruction cycles: fetch a new instruction, and decode it. */
 static Thunk cycle_fetch(DCPU_State *cpu)
 {
-	const Thunk	next_add = { cycle_add };
-	const Thunk	next_sub = { cycle_sub };
+	const Thunk	next_add = { cycle_add }, next_sub = { cycle_sub}, next_mul = { cycle_mul };
 	const Thunk	next_shl = { cycle_shl };
 	const Thunk	next_shr = { cycle_shr };
-	const Thunk	next_and = { cycle_and }, next_bor = { cycle_bor }, next_xor = { cycle_xor };
 	const Thunk	next_if = { cycle_if };
 	const Thunk	next_jsr = { cycle_jsr };
-	uint32_t	tmp;
 
 	if(cpu->inst == 0)
 	{
@@ -406,10 +392,7 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 		return next_sub;
 	case OP_MUL:
 		printf("executing MUL\n");
-		tmp = *cpu->val_a * *cpu->val_b;
-		*cpu->val_a = tmp & 0xffff;
-		cpu->o = (tmp >> 16) & 0xffff;
-		break;
+		return next_mul;
 	case OP_SHL:
 		printf("evaluating SHL\n");
 		return next_shl;
@@ -418,13 +401,16 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 		return next_shr;
 	case OP_AND:
 		printf("evaluating AND\n");
-		return next_and;
+		*cpu->val_a &= *cpu->val_b;
+		break;
 	case OP_BOR:
 		printf("evaluating BOR\n");
-		return next_bor;
+		*cpu->val_a |= *cpu->val_b;
+		break;
 	case OP_XOR:
 		printf("evaluating XOR\n");
-		return next_xor;
+		*cpu->val_a ^= *cpu->val_b;
+		break;
 	case OP_IFE:
 		printf("evaluating IFE [%04x == 0x%04x]\n", *cpu->val_a, *cpu->val_b);
 		cpu->skip = !(*cpu->val_a == *cpu->val_b);
