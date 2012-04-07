@@ -129,6 +129,7 @@ struct DCPU_State {
 	Thunk		cycle;
 	uint16_t	inst;
 	uint16_t	*val_a, *val_b;
+	uint16_t	dummy;
 	unsigned char	skip;
 	uint32_t	timer;
 };
@@ -205,7 +206,7 @@ static int eval_value(DCPU_State *cpu, DCPU_Value value, int dest, uint16_t **va
 	}
 	else if(value >= 0x20 && value <= 0x3f)
 	{
-		*value_result = literals + (value - 0x20);
+		*value_result = dest ? &cpu->dummy : literals + (value - 0x20);
 		printf(" small literal, value 0x%02x\n", **value_result);
 	}
 	else
@@ -426,7 +427,7 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 		}
 		break;
 	case OP_SET:
-		printf("executing SET\n");
+		printf("executing SET (a at %p, b at %p, dummy at %p)\n", cpu->val_a, cpu->val_b, &cpu->dummy);
 		*cpu->val_a = *cpu->val_b;
 		break;
 	case OP_ADD:
@@ -503,6 +504,7 @@ void DCPU_Init(DCPU_State *cpu)
 	cpu->inst = 0;
 	cpu->val_a = NULL;
 	cpu->val_b = NULL;
+	cpu->dummy = 0x55aa;
 	cpu->skip = 0;
 	cpu->cycle.execute = cycle_fetch;
 	cpu->timer = 0;
@@ -554,14 +556,15 @@ int main(void)
 	const uint16_t test_and[] = { 0x7c01, 0xffff, 0x7c11, 0x5555, 0x0409 };
 	const uint16_t test_div[] = { 0x7c01, 0xffff, 0x7c11, 0x0471, 0x0405 };
 	const uint16_t test_mod[] = { 0x7c01, 0xffff, 0x7c11, 0x0471, 0x0406 };
+	const uint16_t test_set00[] = { 0x8201 };
 
 	DCPU_Init(&cpu);
 /*	DCPU_Load(&cpu, 0, test, sizeof test / sizeof *test);
 	DCPU_Execute(&cpu, 85);
 	DCPU_Load(&cpu, 0, test_and, sizeof test_and / sizeof *test_and);
 */	
-	DCPU_Load(&cpu, 0, test_mod, sizeof test_mod / sizeof *test_mod);
-	DCPU_Execute(&cpu, 7);
+	DCPU_Load(&cpu, 0, test_set00, sizeof test_set00 / sizeof *test_set00);
+	DCPU_Execute(&cpu, 1);
 	DCPU_PrintState(&cpu);
 
 	return EXIT_SUCCESS;
