@@ -504,7 +504,7 @@ void DCPU_Init(DCPU_State *cpu)
 	cpu->inst = 0;
 	cpu->val_a = NULL;
 	cpu->val_b = NULL;
-	cpu->dummy = 0x55aa;
+	cpu->dummy = 0;
 	cpu->skip = 0;
 	cpu->cycle.execute = cycle_fetch;
 	cpu->timer = 0;
@@ -517,13 +517,13 @@ void DCPU_Load(DCPU_State *cpu, uint16_t address, const uint16_t *data, size_t l
 
 void DCPU_PrintState(const DCPU_State *cpu)
 {
-	const char	*reg_names[] = { "A", "B", "C", "X", "Y", "Z", "I", "J" };
+	const char	*reg_names = "ABCXYZIJ";
 	int		i;
 
 	printf("PC=0x%04x [0x%04x]\nSP=0x%04x\nO=0x%04x\n", cpu->pc, cpu->memory[cpu->pc], cpu->sp, cpu->o);
 	printf("Registers:\n");
 	for(i = 0; i < sizeof cpu->registers / sizeof *cpu->registers; i++)
-		printf("%6s ", reg_names[i]);
+		printf("%-6c ", reg_names[i]);
 	printf("\n");
 	for(i = 0; i < sizeof cpu->registers / sizeof *cpu->registers; i++)
 		printf("0x%04x ", cpu->registers[i]);
