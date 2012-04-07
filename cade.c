@@ -197,6 +197,11 @@ static int eval_value(DCPU_State *cpu, DCPU_Value value, int dest, uint16_t **va
 		*value_result = &cpu->memory[--cpu->sp];
 		printf(" PUSH, value 0x%04x\n", **value_result);
 	}
+	else if(value == VAL_SP)
+	{
+		*value_result = &cpu->sp;
+		printf(" SP, value 0x%04x\n", **value_result);
+	}
 	else if(value == VAL_PC)
 	{
 		*value_result = &cpu->pc;
