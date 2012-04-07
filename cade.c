@@ -187,6 +187,16 @@ static int eval_value(DCPU_State *cpu, DCPU_Value value, int dest, uint16_t **va
 		*value_result = &cpu->memory[cpu->sp++];
 		printf(" POP, value 0x%04x\n", **value_result);
 	}
+	else if(value == VAL_PEEK)
+	{
+		*value_result = &cpu->memory[cpu->sp];
+		printf(" PEEK, value 0x%04x\n", **value_result);
+	}
+	else if(value == VAL_PUSH)
+	{
+		*value_result = &cpu->memory[--cpu->sp];
+		printf(" PUSH, value 0x%04x\n", **value_result);
+	}
 	else if(value == VAL_PC)
 	{
 		*value_result = &cpu->pc;
