@@ -181,6 +181,7 @@ static int eval_value(DCPU_State *cpu, DCPU_Value value, int dest, uint16_t **va
 
 		*value_result = &cpu->memory[succ + cpu->registers[value - VAL_SUCC_REG_A]];
 		printf(" indexing, address 0x%04x\n", (unsigned short) (*value_result - cpu->memory));
+		return 1;
 	}
 	else if(value == VAL_POP)
 	{
