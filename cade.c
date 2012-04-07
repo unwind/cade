@@ -276,6 +276,20 @@ static Thunk cycle_and(DCPU_State *cpu)
 	return get_cycle_refetch(cpu);
 }
 
+static Thunk cycle_bor(DCPU_State *cpu)
+{
+	*cpu->val_a = *cpu->val_a | *cpu->val_b;
+
+	return get_cycle_refetch(cpu);
+}
+
+static Thunk cycle_xor(DCPU_State *cpu)
+{
+	*cpu->val_a = *cpu->val_a ^ *cpu->val_b;
+
+	return get_cycle_refetch(cpu);
+}
+
 static Thunk cycle_if(DCPU_State *cpu)
 {
 	printf(" in IF, burning a cycle\n");
@@ -310,7 +324,7 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 	const Thunk	next_sub = { cycle_sub };
 	const Thunk	next_shl = { cycle_shl };
 	const Thunk	next_shr = { cycle_shr };
-	const Thunk	next_and = { cycle_and };
+	const Thunk	next_and = { cycle_and }, next_bor = { cycle_bor }, next_xor = { cycle_xor };
 	const Thunk	next_if = { cycle_if };
 	const Thunk	next_jsr = { cycle_jsr };
 	uint32_t	tmp;
@@ -405,6 +419,12 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 	case OP_AND:
 		printf("evaluating AND\n");
 		return next_and;
+	case OP_BOR:
+		printf("evaluating BOR\n");
+		return next_bor;
+	case OP_XOR:
+		printf("evaluating XOR\n");
+		return next_xor;
 	case OP_IFE:
 		printf("evaluating IFE [%04x == 0x%04x]\n", *cpu->val_a, *cpu->val_b);
 		cpu->skip = !(*cpu->val_a == *cpu->val_b);
@@ -413,6 +433,16 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 	case OP_IFN:
 		printf("evaluating IFN [0x%04x != 0x%04x]\n", *cpu->val_a, *cpu->val_b);
 		cpu->skip = !(*cpu->val_a != *cpu->val_b);
+		printf(" set skip to %u\n", cpu->skip);
+		return next_if;
+	case OP_IFG:
+		printf("evaluating IFG [0x%04x > 0x%04x]\n", *cpu->val_a, *cpu->val_b);
+		cpu->skip = !(*cpu->val_a > *cpu->val_b);
+		printf(" set skip to %u\n", cpu->skip);
+		return next_if;
+	case OP_IFB:
+		printf("evaluating IFB [0x%04x > 0x%04x]\n", *cpu->val_a, *cpu->val_b);
+		cpu->skip = !((*cpu->val_a & *cpu->val_b) != 0);
 		printf(" set skip to %u\n", cpu->skip);
 		return next_if;
 	default:
