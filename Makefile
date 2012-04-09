@@ -1,5 +1,5 @@
 #
-#
+# Makefile for CADE, a DCPU-16 emulator.
 #
 
 CFLAGS=-Wall -DCADE_STANDALONE
