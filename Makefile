@@ -15,4 +15,4 @@ cade:	cade.c
 # ---------------------------------------------- MAINTENANCE
 
 clean:
-	rm $(ALL)
+	rm -f $(ALL)
