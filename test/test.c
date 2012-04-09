@@ -17,7 +17,7 @@ static struct {
 	size_t	successes;
 } test_state;
 
-static void test_begin(const char *format, ...)
+static void test_begin(DCPU_State *cpu, const uint16_t *code, size_t words, const char *format, ...)
 {
 	char	buf[1024];
 	va_list	args;
@@ -29,6 +29,10 @@ static void test_begin(const char *format, ...)
 	fflush(stdout);
 	old_stdout = stdout;
 	stdout = fopen("dump.txt", "w+");
+
+	DCPU_Init(cpu);
+	DCPU_Load(cpu, 0x0000, code, words);
+	DCPU_StepUntilStuck(cpu);
 }
 
 static int test_end(int result)
@@ -48,11 +52,7 @@ static int test_single_set_register_literal(DCPU_State *cpu, DCPU_Register reg, 
 {
 	const uint16_t	set_reg_literal[] = { (0x20 + value) << 10 | (reg << 4) | 1, DCPU_STOP };
 
-	test_begin("SET %s=0x%02x", DCPU_GetRegisterName(reg), value);
-
-	DCPU_Init(cpu);
-	DCPU_Load(cpu, 0x0000, set_reg_literal, sizeof set_reg_literal / sizeof *set_reg_literal);
-	DCPU_StepUntilStuck(cpu);
+	test_begin(cpu, set_reg_literal, sizeof set_reg_literal / sizeof *set_reg_literal, "SET %s=0x%02x", DCPU_GetRegisterName(reg), value);
 
 	return test_end(DCPU_GetRegister(cpu, reg) == value);
 }
@@ -75,10 +75,7 @@ static int test_add(DCPU_State *cpu)
 {
 	const uint16_t	code[] = { 0x7c01, 0x4700, 0xc411, 0x0402, 0x85c3 };
 
-	test_begin("A=0x4700 + 0x11");
-	DCPU_Init(cpu);
-	DCPU_Load(cpu, 0x0000, code, sizeof code / sizeof *code);
-	DCPU_StepUntilStuck(cpu);
+	test_begin(cpu, code, sizeof code / sizeof *code, "A=0x4700 + 0x11");
 
 	return test_end(DCPU_GetRegister(cpu, DCPU_REG_A) == 0x4711);
 }
@@ -87,10 +84,7 @@ static int test_sub(DCPU_State *cpu)
 {
 	const uint16_t	code[] = { 0x7c01, 0x4700, 0xc411, 0x403, 0x85c3 };
 
-	test_begin("A=0x4700 - 0x11");
-	DCPU_Init(cpu);
-	DCPU_Load(cpu, 0x0000, code, sizeof code / sizeof *code);
-	DCPU_StepUntilStuck(cpu);
+	test_begin(cpu, code, sizeof code / sizeof *code, "A=0x4700 - 0x11");
 
 	return test_end(DCPU_GetRegister(cpu, DCPU_REG_A) == 0x46ef);
 }
