@@ -89,6 +89,15 @@ static int test_sub(DCPU_State *cpu)
 	return test_end(DCPU_GetRegister(cpu, DCPU_REG_A) == 0x46ef);
 }
 
+static int test_push1(DCPU_State *cpu)
+{
+	const uint16_t	code[] = { 0x7da1, 0xcafe, 0x7da1, 0xbabe, 0x85c3 };
+
+	test_begin(cpu, code, sizeof code / sizeof *code, "Push 0xcafebabe");
+
+	return test_end(DCPU_GetMemory(cpu, 0xfffe) == 0xcafe && DCPU_GetMemory(cpu, 0xfffd) == 0xbabe);
+}
+
 int main(void)
 {
 	DCPU_State	*cpu;
@@ -102,6 +111,8 @@ int main(void)
 		test_set_register_literal(cpu);
 		test_add(cpu);
 		test_sub(cpu);
+		test_push1(cpu);
+
 		printf("%zu/%zu tests succeeded.\n", test_state.successes, test_state.tests);
 
 		DCPU_Destroy(cpu);
