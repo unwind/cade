@@ -6,6 +6,9 @@
  * to ignore the cycle-accurate part, which is understandable. I've never written a
  * cycle-accurate CPU emulator though, so that's the itch here.
  *
+ * Written by Emil Brink <emil@obsession.se>, created April 2012.
+ *
+ * Of course, also see the DCPU-16 spec at <http://0x10c.com/doc/dcpu-16.txt>.
 */
 
 #include <stdio.h>
