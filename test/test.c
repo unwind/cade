@@ -71,6 +71,30 @@ static void test_set_register_literal(DCPU_State *cpu)
 	}
 }
 
+static int test_add(DCPU_State *cpu)
+{
+	const uint16_t	code[] = { 0x7c01, 0x4700, 0xc411, 0x0402, 0x85c3 };
+
+	test_begin("A=0x4700 + 0x11");
+	DCPU_Init(cpu);
+	DCPU_Load(cpu, 0x0000, code, sizeof code / sizeof *code);
+	DCPU_StepUntilStuck(cpu);
+
+	return test_end(DCPU_GetRegister(cpu, DCPU_REG_A) == 0x4711);
+}
+
+static int test_sub(DCPU_State *cpu)
+{
+	const uint16_t	code[] = { 0x7c01, 0x4700, 0xc411, 0x403, 0x85c3 };
+
+	test_begin("A=0x4700 - 0x11");
+	DCPU_Init(cpu);
+	DCPU_Load(cpu, 0x0000, code, sizeof code / sizeof *code);
+	DCPU_StepUntilStuck(cpu);
+
+	return test_end(DCPU_GetRegister(cpu, DCPU_REG_A) == 0x46ef);
+}
+
 int main(void)
 {
 	DCPU_State	*cpu;
@@ -82,6 +106,8 @@ int main(void)
 	if((cpu = DCPU_Create()) != NULL)
 	{
 		test_set_register_literal(cpu);
+		test_add(cpu);
+		test_sub(cpu);
 		printf("%zu/%zu tests succeeded.\n", test_state.successes, test_state.tests);
 
 		DCPU_Destroy(cpu);
