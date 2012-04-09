@@ -110,7 +110,7 @@ struct Thunk
 #define	MEM_SIZE	0x10000
 
 struct DCPU_State {
-	uint16_t	registers[REG_COUNT];
+	uint16_t	registers[DCPU_REG_COUNT];
 	uint16_t	sp, pc, o;
 	uint16_t	memory[MEM_SIZE];
 
@@ -562,7 +562,7 @@ void DCPU_Dump(const DCPU_State *cpu, uint16_t start, size_t length)
 
 uint16_t DCPU_GetRegister(const DCPU_State *cpu, DCPU_Register reg)
 {
-	if(cpu != NULL && reg < REG_COUNT)
+	if(cpu != NULL && reg < DCPU_REG_COUNT)
 		return cpu->registers[reg];
 	return 0;
 }
@@ -623,6 +623,8 @@ size_t DCPU_StepUntilStuck(DCPU_State *cpu)
 
 /* -------------------------------------------------------------------------- */
 
+#if defined CADE_STANDALONE
+
 int main(void)
 {
 	DCPU_State	cpu;
@@ -653,3 +655,5 @@ int main(void)
 
 	return EXIT_SUCCESS;
 }
+
+#endif	/* CADE_STANDALONE */

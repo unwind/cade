@@ -20,15 +20,15 @@
 /* -------------------------------------------------------------------------- */
 
 typedef enum {
-	REG_A = 0,
-	REG_B,
-	REG_C,
-	REG_X,
-	REG_Y,
-	REG_Z,
-	REG_I,
-	REG_J,
-	REG_COUNT
+	DCPU_REG_A = 0,
+	DCPU_REG_B,
+	DCPU_REG_C,
+	DCPU_REG_X,
+	DCPU_REG_Y,
+	DCPU_REG_Z,
+	DCPU_REG_I,
+	DCPU_REG_J,
+	DCPU_REG_COUNT
 } DCPU_Register;
 
 typedef struct DCPU_State	DCPU_State;

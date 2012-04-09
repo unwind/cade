@@ -2,7 +2,8 @@
 #
 #
 
-CFLAGS=-Wall
+CFLAGS=-Wall -DCADE_STANDALONE
+
 
 .PHONY:	clean
 
