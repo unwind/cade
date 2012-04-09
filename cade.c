@@ -66,18 +66,6 @@ typedef enum {
 } DCPU_ExtendedOp;
 
 typedef enum {
-	REG_A = 0,
-	REG_B,
-	REG_C,
-	REG_X,
-	REG_Y,
-	REG_Z,
-	REG_I,
-	REG_J,
-	REG_COUNT
-} DCPU_Register;
-
-typedef enum {
 	VAL_REG_A = 0,
 	VAL_REG_B,
 	VAL_REG_C,
@@ -130,8 +118,8 @@ struct DCPU_State {
 	uint16_t	inst;
 	uint16_t	*val_a, *val_b;
 	uint16_t	dummy;
-	unsigned char	skip;
 	uint32_t	timer;
+	unsigned char	skip;
 };
 
 /* -------------------------------------------------------------------------- */
@@ -561,6 +549,37 @@ void DCPU_Dump(const DCPU_State *cpu, uint16_t start, size_t length)
 	}
 }
 
+/* -------------------------------------------------------------------------- */
+
+uint16_t DCPU_GetRegister(const DCPU_State *cpu, DCPU_Register reg)
+{
+	if(cpu != NULL && reg < REG_COUNT)
+		return cpu->registers[reg];
+	return 0;
+}
+
+uint16_t DCPU_GetPC(const DCPU_State *cpu)
+{
+	return cpu != NULL ? cpu->pc : 0;
+}
+
+uint16_t DCPU_GetSP(const DCPU_State *cpu)
+{
+	return cpu != NULL ? cpu->sp : 0;
+}
+
+uint16_t DCPU_GetO(const DCPU_State *cpu)
+{
+	return cpu != NULL ? cpu->o : 0;
+}
+
+uint16_t DCPU_GetMemory(const DCPU_State *cpu, uint16_t address)
+{
+	return cpu != NULL ? cpu->memory[address] : 0;
+}
+
+/* -------------------------------------------------------------------------- */
+
 void DCPU_StepCycles(DCPU_State *cpu, size_t num_cycles)
 {
 	for(; num_cycles != 0; --num_cycles)
@@ -581,8 +600,8 @@ size_t DCPU_StepInstruction(DCPU_State *cpu)
 
 size_t DCPU_StepUntilStuck(DCPU_State *cpu)
 {
-	int	stuck = 0;
 	size_t	num_cycles = 0;
+	int	stuck;
 
 	do {
 		const uint16_t	old_pc = cpu->pc;
@@ -592,6 +611,8 @@ size_t DCPU_StepUntilStuck(DCPU_State *cpu)
 
 	return num_cycles;
 }
+
+/* -------------------------------------------------------------------------- */
 
 int main(void)
 {
