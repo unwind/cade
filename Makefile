@@ -10,7 +10,7 @@ ALL	= cade
 
 ALL:	$(ALL)
 
-cade:	cade.c
+cade:	cade.c cade.h
 
 # ---------------------------------------------- MAINTENANCE
 
