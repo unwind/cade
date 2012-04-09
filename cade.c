@@ -534,6 +534,7 @@ void DCPU_Destroy(DCPU_State *cpu)
 void DCPU_Init(DCPU_State *cpu)
 {
 	memset(cpu, 0, sizeof *cpu);
+	cpu->sp = 0xffff;
 	cpu->cycle.execute = cycle_fetch;
 }
 
