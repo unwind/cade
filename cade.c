@@ -560,17 +560,22 @@ void DCPU_Dump(const DCPU_State *cpu, uint16_t start, size_t length)
 	}
 }
 
-void DCPU_StepCycles(DCPU_State *cpu, unsigned int num_cycles)
+void DCPU_StepCycles(DCPU_State *cpu, size_t num_cycles)
 {
 	for(; num_cycles != 0; --num_cycles)
 		cpu->cycle = cpu->cycle.execute(cpu);
 }
 
-void DCPU_StepInstruction(DCPU_State *cpu)
+size_t DCPU_StepInstruction(DCPU_State *cpu)
 {
+	size_t	num_cycles = 0;
+
 	do {
 		cpu->cycle = cpu->cycle.execute(cpu);
+		++num_cycles;
 	} while(cpu->inst != 0);
+
+	return num_cycles;
 }
 
 int main(void)
