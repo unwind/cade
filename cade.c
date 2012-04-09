@@ -560,10 +560,17 @@ void DCPU_Dump(const DCPU_State *cpu, uint16_t start, size_t length)
 	}
 }
 
-void DCPU_Execute(DCPU_State *cpu, unsigned int num_cycles)
+void DCPU_StepCycles(DCPU_State *cpu, unsigned int num_cycles)
 {
 	for(; num_cycles != 0; --num_cycles)
 		cpu->cycle = cpu->cycle.execute(cpu);
+}
+
+void DCPU_StepInstruction(DCPU_State *cpu)
+{
+	do {
+		cpu->cycle = cpu->cycle.execute(cpu);
+	} while(cpu->inst != 0);
 }
 
 int main(void)
@@ -579,12 +586,14 @@ int main(void)
 	const uint16_t test_set00[] = { 0x8201 };
 
 	DCPU_Init(&cpu);
-/*	DCPU_Load(&cpu, 0, test, sizeof test / sizeof *test);
-	DCPU_Execute(&cpu, 85);
+	DCPU_Load(&cpu, 0, test, sizeof test / sizeof *test);
+/*	DCPU_Execute(&cpu, 85);
 	DCPU_Load(&cpu, 0, test_and, sizeof test_and / sizeof *test_and);
-*/	
+	
 	DCPU_Load(&cpu, 0, test_set00, sizeof test_set00 / sizeof *test_set00);
-	DCPU_Execute(&cpu, 1);
+*/
+	DCPU_StepInstruction(&cpu);
+	DCPU_StepInstruction(&cpu);
 	DCPU_PrintState(&cpu);
 
 	return EXIT_SUCCESS;
