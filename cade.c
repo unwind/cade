@@ -124,6 +124,15 @@ struct DCPU_State {
 
 /* -------------------------------------------------------------------------- */
 
+const char * DCPU_GetRegisterName(DCPU_Register reg)
+{
+	const char	*names = "A\0B\0C\0X\0Y\0Z\0I\0J\0";
+
+	return names + 2 * reg;
+}
+
+/* -------------------------------------------------------------------------- */
+
 unsigned int DCPU_ValueLength(unsigned char value)
 {
 	if(value < VAL_SUCC)

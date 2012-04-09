@@ -38,6 +38,8 @@ typedef struct DCPU_State	DCPU_State;
 
 /* -------------------------------------------------------------------------- */
 
+const char *	DCPU_GetRegisterName(DCPU_Register);
+
 DCPU_State *	DCPU_Create(void);
 void		DCPU_Destroy(DCPU_State *cpu);
 
