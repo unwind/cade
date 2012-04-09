@@ -220,6 +220,7 @@ static int eval_value(DCPU_State *cpu, DCPU_Value value, int dest, uint16_t **va
 	}
 	else
 		fprintf(stderr, "**Unhandled value type 0x%x\n", value);
+
 	return 0;
 }
 
