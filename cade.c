@@ -8,9 +8,7 @@
  *
 */
 
-#include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include "cade.h"
@@ -573,7 +571,21 @@ size_t DCPU_StepInstruction(DCPU_State *cpu)
 	do {
 		cpu->cycle = cpu->cycle.execute(cpu);
 		++num_cycles;
-	} while(cpu->inst != 0);
+	} while(cpu->inst != 0 || cpu->skip != 0);
+
+	return num_cycles;
+}
+
+size_t DCPU_StepUntilStuck(DCPU_State *cpu)
+{
+	int	stuck = 0;
+	size_t	num_cycles = 0;
+
+	do {
+		const uint16_t	old_pc = cpu->pc;
+		num_cycles += DCPU_StepInstruction(cpu);
+		stuck = cpu->pc == old_pc;
+	} while(!stuck);
 
 	return num_cycles;
 }
@@ -585,21 +597,23 @@ int main(void)
 				0x7dc1, 0x001a, 0xa861, 0x7c01, 0x2000, 0x2161, 0x2000, 0x8463,
 				0x806d, 0x7dc1, 0x000d, 0x9031, 0x7c10, 0x0018, 0x7dc1, 0x001a,
 				0x9037, 0x61c1, 0x7dc1, 0x001a, 0x0000, 0x0000, 0x0000, 0x0000 };
-	const uint16_t test_and[] = { 0x7c01, 0xffff, 0x7c11, 0x5555, 0x0409 };
-	const uint16_t test_div[] = { 0x7c01, 0xffff, 0x7c11, 0x0471, 0x0405 };
-	const uint16_t test_mod[] = { 0x7c01, 0xffff, 0x7c11, 0x0471, 0x0406 };
-	const uint16_t test_set00[] = { 0x8201 };
+	const uint16_t	test_and[] = { 0x7c01, 0xffff, 0x7c11, 0x5555, 0x0409 };
+	const uint16_t	test_div[] = { 0x7c01, 0xffff, 0x7c11, 0x0471, 0x0405 };
+	const uint16_t	test_mod[] = { 0x7c01, 0xffff, 0x7c11, 0x0471, 0x0406 };
+	const uint16_t	test_set00[] = { 0x8201 };
+	size_t		count;
 
 	DCPU_Init(&cpu);
+
 	DCPU_Load(&cpu, 0, test, sizeof test / sizeof *test);
-/*	DCPU_Execute(&cpu, 85);
-	DCPU_Load(&cpu, 0, test_and, sizeof test_and / sizeof *test_and);
-	
+/*	DCPU_Load(&cpu, 0, test_and, sizeof test_and / sizeof *test_and);
 	DCPU_Load(&cpu, 0, test_set00, sizeof test_set00 / sizeof *test_set00);
 */
-	DCPU_StepInstruction(&cpu);
-	DCPU_StepInstruction(&cpu);
+	count = DCPU_StepUntilStuck(&cpu);
+
 	DCPU_PrintState(&cpu);
+
+	printf("Ran %zu instructions before becoming stuck.\n", count);
 
 	return EXIT_SUCCESS;
 }
