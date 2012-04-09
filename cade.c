@@ -506,18 +506,26 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 
 /* -------------------------------------------------------------------------- */
 
+DCPU_State * DCPU_Create(void)
+{
+	DCPU_State	*cpu;
+
+	if((cpu = malloc(sizeof *cpu)) != NULL)
+	{
+		DCPU_Init(cpu);
+	}
+	return cpu;
+}
+
+void DCPU_Destroy(DCPU_State *cpu)
+{
+	free(cpu);
+}
+
 void DCPU_Init(DCPU_State *cpu)
 {
-	memset(cpu->registers, 0, sizeof cpu->registers);
-	cpu->pc = 0;
-	cpu->sp = (sizeof cpu->memory / sizeof *cpu->memory) - 1;
-	cpu->inst = 0;
-	cpu->val_a = NULL;
-	cpu->val_b = NULL;
-	cpu->dummy = 0;
-	cpu->skip = 0;
+	memset(cpu, 0, sizeof *cpu);
 	cpu->cycle.execute = cycle_fetch;
-	cpu->timer = 0;
 }
 
 void DCPU_Load(DCPU_State *cpu, uint16_t address, const uint16_t *data, size_t length)
@@ -626,19 +634,22 @@ int main(void)
 	const uint16_t	test_div[] = { 0x7c01, 0xffff, 0x7c11, 0x0471, 0x0405 };
 	const uint16_t	test_mod[] = { 0x7c01, 0xffff, 0x7c11, 0x0471, 0x0406 };
 	const uint16_t	test_set00[] = { 0x8201 };
+	const uint16_t	test_stop[] = { (0x21 << 10 | (0x1c << 4) | 3) };
 	size_t		count;
 
 	DCPU_Init(&cpu);
 
-	DCPU_Load(&cpu, 0, test, sizeof test / sizeof *test);
-/*	DCPU_Load(&cpu, 0, test_and, sizeof test_and / sizeof *test_and);
+/*	DCPU_Load(&cpu, 0, test, sizeof test / sizeof *test);
+	DCPU_Load(&cpu, 0, test_and, sizeof test_and / sizeof *test_and);
 	DCPU_Load(&cpu, 0, test_set00, sizeof test_set00 / sizeof *test_set00);
 */
+	DCPU_Load(&cpu, 0, test_stop, sizeof test_stop / sizeof *test_stop);
+
 	count = DCPU_StepUntilStuck(&cpu);
 
 	DCPU_PrintState(&cpu);
 
-	printf("Ran %zu instructions before becoming stuck.\n", count);
+	printf("Ran %zu cycles before becoming stuck.\n", count);
 
 	return EXIT_SUCCESS;
 }
