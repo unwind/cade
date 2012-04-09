@@ -367,6 +367,7 @@ static Thunk cycle_jsr(DCPU_State *cpu)
 	cpu->memory[--cpu->sp] = cpu->pc;
 	cpu->pc = *cpu->val_a;
 	printf("ending cycle %u\n", cpu->timer++);
+
 	return get_cycle_refetch(cpu);
 }
 
