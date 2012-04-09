@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cade.h"
+
 /* -------------------------------------------------------------------------- */
 
 /*
@@ -108,9 +110,6 @@ typedef enum {
 	VAL_SUCC,
 	VAL_SUCC_LIT,
 } DCPU_Value;
-
-/* Pre-declare this, circular dependency. */
-typedef struct DCPU_State	DCPU_State;
 
 typedef struct Thunk	Thunk;
 
