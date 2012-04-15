@@ -33,7 +33,9 @@ typedef enum {
 
 typedef struct DCPU_State	DCPU_State;
 
-/* This is "SUB PC,1", which is a 1-instruction infinite loop. */
+/* This is "SUB PC,1", which is a 1-instruction infinite loop
+ * that doesn't depend on the address it's assembled at.
+*/
 #define	DCPU_STOP	(0x21 << 10 | (0x1c << 4) | 3)
 
 /* -------------------------------------------------------------------------- */
@@ -47,6 +49,7 @@ void		DCPU_Init(DCPU_State *cpu);
 void		DCPU_Load(DCPU_State *cpu, uint16_t address, const uint16_t *data, size_t length);
 
 uint16_t	DCPU_GetRegister(const DCPU_State *cpu, DCPU_Register reg);
+uint16_t	DCPU_GetPC(const DCPU_State *cpu);
 uint16_t	DCPU_GetSP(const DCPU_State *cpu);
 uint16_t	DCPU_GetO(const DCPU_State *cpu);
 uint16_t	DCPU_GetMemory(const DCPU_State *cpu, uint16_t address);
