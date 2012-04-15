@@ -2,6 +2,7 @@ Cade
 ====
 Cade is a __c__ycle-__a__ccurate __D__CPU-16 __e__mulator, written in C by Emil Brink. The DCPU-16 is an imaginary 16-bit processor for an upcoming game called [0x10c](http://0x10c.com/).
 
+Cade is licensed under the [GNU Lesser General Public License, version 3](http://www.gnu.org/copyleft/lesser.html).
 
 Background
 ==========

@@ -9,6 +9,8 @@
  * Written by Emil Brink <emil@obsession.se>, created April 2012.
  *
  * Of course, also see the DCPU-16 spec at <http://0x10c.com/doc/dcpu-16.txt>.
+ *
+ * Licensed under the GNU Lesser General Public License, v3.
 */
 
 #include <stdio.h>
