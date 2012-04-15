@@ -14,7 +14,7 @@ It defines a minimalistic public API, so the hosting program *should* be able to
 
 Status
 ======
-Cade is mostly a(nother) fun project on the side for me, it's not very high on my list of life priorites. It's on github just to join the mini-bandwagon of DCPU-16-related projects; it's always fun to group. Please think twice (and fork!) before deciding on using Cade as the core CPU emulation technology for anything serious.
+Cade is mostly a(nother) fun project on the side for me, it's not very high on my list of life priorites. It's on GitHub just to join the mini-bandwagon of DCPU-16-related projects; it's always fun to group. Please think twice (and fork!) before deciding on using Cade as the core CPU emulation technology for anything serious.
 
 The `test/` directory contains some very early testing code, somewhat hampered by me not also implementing an assembler, and not wanting to add a hard dependency on any.
 
