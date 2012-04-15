@@ -20,6 +20,13 @@
 
 /* -------------------------------------------------------------------------- */
 
+/** \file cade.c
+ *
+ * \mainpage Cade, a cycle-accurate DCPU-16 emulator by Emil Brink.
+ *
+ * See the public API documentation in cade.h.
+*/
+
 /*
 Basic opcodes: (4 bits)
     0x0: non-basic instruction - see below
@@ -111,21 +118,26 @@ struct Thunk
 
 #define	MEM_SIZE	0x10000
 
+/** \brief Internal representation of the state of the emulated CPU. */
 struct DCPU_State {
-	uint16_t	registers[DCPU_REG_COUNT];
-	uint16_t	sp, pc, o;
-	uint16_t	memory[MEM_SIZE];
+	uint16_t	registers[DCPU_REG_COUNT];	/**< The registers, indexed by DCPU_Register. */
+	uint16_t	sp, pc, o;			/**< Special registers. */
+	uint16_t	memory[MEM_SIZE];		/**< The machine's memory. */
 
-	Thunk		cycle;
-	uint16_t	inst;
-	uint16_t	*val_a, *val_b;
-	uint16_t	dummy;
-	uint32_t	timer;
-	unsigned char	skip;
+	Thunk		cycle;				/**< Function to execute for next clock cycle. */
+	uint16_t	inst;				/**< Currently-executing instruction. */
+	uint16_t	*val_a, *val_b;			/**< Pointers at resolved values from current instruction, or NULL. */
+	uint16_t	dummy;				/**< Target for invalid value (SET of literal). */
+	uint32_t	timer;				/**< Instruction-counter. */
+	unsigned char	skip;				/**< Signals that the next instruction is to be skipped due to IFx. */
 };
 
 /* -------------------------------------------------------------------------- */
 
+/** \brief Returns a string containing the name of the indicated register.
+ *
+ * @return A constant string (owned by Cade, should not be deallocated by caller).
+*/
 const char * DCPU_GetRegisterName(DCPU_Register reg)
 {
 	const char	*names = "A\0B\0C\0X\0Y\0Z\0I\0J\0";
@@ -135,7 +147,7 @@ const char * DCPU_GetRegisterName(DCPU_Register reg)
 
 /* -------------------------------------------------------------------------- */
 
-unsigned int DCPU_ValueLength(unsigned char value)
+static unsigned int DCPU_ValueLength(unsigned char value)
 {
 	if(value < VAL_SUCC)
 		return 0;
@@ -144,7 +156,7 @@ unsigned int DCPU_ValueLength(unsigned char value)
 	return 0;
 }
 
-/* Returns length of the given instruction, in words. */
+/** \brief Returns length of the given instruction, in words. */
 unsigned int DCPU_InstructionLength(uint16_t inst)
 {
 	if(inst & 0xf)
@@ -518,6 +530,10 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 
 /* -------------------------------------------------------------------------- */
 
+/** \brief Creates a new DCPU-16 instance.
+ *
+ * Memory is dynamically allocated to hold the emulated CPU's state; use DCPU_Destroy() to free it.
+*/
 DCPU_State * DCPU_Create(void)
 {
 	DCPU_State	*cpu;
@@ -529,11 +545,18 @@ DCPU_State * DCPU_Create(void)
 	return cpu;
 }
 
+/** \brief Destroys a DCPU-16 instance. */
 void DCPU_Destroy(DCPU_State *cpu)
 {
 	free(cpu);
 }
 
+/** \brief Initializes (resets) the state of an emulated DCPU-16 instance.
+ *
+ * All memory and registers (including PC and O) are cleared to 0x0000, and the
+ * stack pointer is set to 0xffff. Any executing instruction is aborted, on the
+ * next cycle executed the DCPU-16 will fetch a new instruction to execute.
+*/
 void DCPU_Init(DCPU_State *cpu)
 {
 	memset(cpu, 0, sizeof *cpu);

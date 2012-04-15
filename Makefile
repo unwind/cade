@@ -5,7 +5,7 @@
 CFLAGS=-Wall -DCADE_STANDALONE
 
 
-.PHONY:	clean
+.PHONY:	clean doc
 
 ALL	= cade
 
@@ -19,3 +19,6 @@ cade:	cade.c cade.h
 
 clean:
 	rm -f $(ALL)
+
+doc:
+	doxygen Doxyfile

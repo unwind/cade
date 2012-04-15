@@ -21,6 +21,14 @@
 
 /* -------------------------------------------------------------------------- */
 
+/** \file cade.h
+ *
+ * This file declares the public API for the Cade DCPU-16 emulator.
+*/
+
+/* -------------------------------------------------------------------------- */
+
+/** \brief Enumeration for the DCPU-16 registers. */
 typedef enum {
 	DCPU_REG_A = 0,
 	DCPU_REG_B,
@@ -35,7 +43,7 @@ typedef enum {
 
 typedef struct DCPU_State	DCPU_State;
 
-/* This is "SUB PC,1", which is a 1-instruction infinite loop
+/** This is <tt>SUB PC, 1</tt>, which is a 1-instruction infinite loop
  * that doesn't depend on the address it's assembled at.
 */
 #define	DCPU_STOP	(0x21 << 10 | (0x1c << 4) | 3)
