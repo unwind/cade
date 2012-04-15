@@ -44,16 +44,14 @@
 </div>
 <div class="contents">
 <!-- doxytag: class="DCPU_State" -->
-<p>Internal representation of the state of the emulated CPU.  
+<p>Internal representation of the state of the emulated DCPU-16.  
  <a href="structDCPU__State.html#details">More...</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDCPU__State.html#a69647a8eafe5a2946728e7e0fd0b65a1">registers</a> [DCPU_REG_COUNT]</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9302e5f3996e791a23baf948e0d7a6b"></a><!-- doxytag: member="DCPU_State::sp" ref="aa9302e5f3996e791a23baf948e0d7a6b" args="" -->
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>sp</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5ceef129576c18bd71090571c86917ae"></a><!-- doxytag: member="DCPU_State::pc" ref="a5ceef129576c18bd71090571c86917ae" args="" -->
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>pc</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDCPU__State.html#aa9302e5f3996e791a23baf948e0d7a6b">sp</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDCPU__State.html#a5ceef129576c18bd71090571c86917ae">pc</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDCPU__State.html#a2c59a219569568dccd7776c8a47357f1">o</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDCPU__State.html#ad0abee413b72a15a59fc0d16cbb8029a">memory</a> [MEM_SIZE]</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structThunk.html">Thunk</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDCPU__State.html#a7004ddc737088ff95eb47b73f55d2e2b">cycle</a></td></tr>
@@ -66,7 +64,8 @@ uint16_t *&#160;</td><td class="memItemRight" valign="bottom"><b>val_a</b></td><
 <tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDCPU__State.html#a3ca9b8b926ea37f463c4db408729be2f">skip</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>Internal representation of the state of the emulated CPU. </p>
+<div class="textblock"><p>Internal representation of the state of the emulated DCPU-16. </p>
+<p>This structure is not public, use the API to access the state of the emulated DCPU-16. </p>
 </div><hr/><h2>Field Documentation</h2>
 <a class="anchor" id="a7004ddc737088ff95eb47b73f55d2e2b"></a><!-- doxytag: member="DCPU_State::cycle" ref="a7004ddc737088ff95eb47b73f55d2e2b" args="" -->
 <div class="memitem">
@@ -134,7 +133,21 @@ uint16_t *&#160;</td><td class="memItemRight" valign="bottom"><b>val_a</b></td><
       </table>
 </div>
 <div class="memdoc">
-<p>Special registers. </p>
+<p>The overflow register. </p>
+
+</div>
+</div>
+<a class="anchor" id="a5ceef129576c18bd71090571c86917ae"></a><!-- doxytag: member="DCPU_State::pc" ref="a5ceef129576c18bd71090571c86917ae" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t <a class="el" href="structDCPU__State.html#a5ceef129576c18bd71090571c86917ae">DCPU_State::pc</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>The program counter. </p>
 
 </div>
 </div>
@@ -163,6 +176,20 @@ uint16_t *&#160;</td><td class="memItemRight" valign="bottom"><b>val_a</b></td><
 </div>
 <div class="memdoc">
 <p>Signals that the next instruction is to be skipped due to IFx. </p>
+
+</div>
+</div>
+<a class="anchor" id="aa9302e5f3996e791a23baf948e0d7a6b"></a><!-- doxytag: member="DCPU_State::sp" ref="aa9302e5f3996e791a23baf948e0d7a6b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t <a class="el" href="structDCPU__State.html#aa9302e5f3996e791a23baf948e0d7a6b">DCPU_State::sp</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>The stack pointer. </p>
 
 </div>
 </div>
@@ -198,7 +225,7 @@ uint16_t *&#160;</td><td class="memItemRight" valign="bottom"><b>val_a</b></td><
 <li><a class="el" href="cade_8c.html">cade.c</a></li>
 </ul>
 </div>
-<hr class="footer"/><address class="footer"><small>Generated on Sun Apr 15 2012 18:19:04 for Cade by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun Apr 15 2012 18:59:08 for Cade by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

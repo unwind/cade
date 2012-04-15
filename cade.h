@@ -41,6 +41,7 @@ typedef enum {
 	DCPU_REG_COUNT
 } DCPU_Register;
 
+/** \brief Pre-declaration of the DCPU_State structure, an opaque representation of the CPU's state. */
 typedef struct DCPU_State	DCPU_State;
 
 /** This is <tt>SUB PC, 1</tt>, which is a 1-instruction infinite loop

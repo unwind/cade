@@ -76,37 +76,37 @@
 <a name="l00041"></a>00041         DCPU_REG_COUNT
 <a name="l00042"></a>00042 } <a class="code" href="cade_8h.html#a7c64f3936922fde21f3f804260bf73a3" title="Enumeration for the DCPU-16 registers.">DCPU_Register</a>;
 <a name="l00043"></a>00043 
-<a name="l00044"></a>00044 <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a>       <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a>;
-<a name="l00045"></a>00045 
-<a name="l00049"></a><a class="code" href="cade_8h.html#af3fb1116def8f282dfc9b86157643d77">00049</a> <span class="preprocessor">#define DCPU_STOP       (0x21 &lt;&lt; 10 | (0x1c &lt;&lt; 4) | 3)</span>
-<a name="l00050"></a>00050 <span class="preprocessor"></span>
-<a name="l00051"></a>00051 <span class="comment">/* -------------------------------------------------------------------------- */</span>
-<a name="l00052"></a>00052 
-<a name="l00053"></a>00053 <span class="keyword">const</span> <span class="keywordtype">char</span> *    <a class="code" href="cade_8c.html#aa0e7badb5071f22a3ee11e625bea680b" title="Returns a string containing the name of the indicated register.">DCPU_GetRegisterName</a>(<a class="code" href="cade_8h.html#a7c64f3936922fde21f3f804260bf73a3" title="Enumeration for the DCPU-16 registers.">DCPU_Register</a>);
-<a name="l00054"></a>00054 
-<a name="l00055"></a>00055 <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *    <a class="code" href="cade_8c.html#a3489ed4263a2524369bbff1ce64eecaf" title="Creates a new DCPU-16 instance.">DCPU_Create</a>(<span class="keywordtype">void</span>);
-<a name="l00056"></a>00056 <span class="keywordtype">void</span>            <a class="code" href="cade_8c.html#a799eafe905b6e7436b470ce404cf1d97" title="Destroys a DCPU-16 instance.">DCPU_Destroy</a>(<a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu);
-<a name="l00057"></a>00057 
-<a name="l00058"></a>00058 <span class="keywordtype">void</span>            <a class="code" href="cade_8c.html#a0b9510b64d76d68e0c408c68fbefc25a" title="Initializes (resets) the state of an emulated DCPU-16 instance.">DCPU_Init</a>(<a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu);
-<a name="l00059"></a>00059 <span class="keywordtype">void</span>            DCPU_Load(<a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu, uint16_t address, <span class="keyword">const</span> uint16_t *data, <span class="keywordtype">size_t</span> length);
-<a name="l00060"></a>00060 
-<a name="l00061"></a>00061 uint16_t        DCPU_GetRegister(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu, <a class="code" href="cade_8h.html#a7c64f3936922fde21f3f804260bf73a3" title="Enumeration for the DCPU-16 registers.">DCPU_Register</a> reg);
-<a name="l00062"></a>00062 uint16_t        DCPU_GetPC(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu);
-<a name="l00063"></a>00063 uint16_t        DCPU_GetSP(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu);
-<a name="l00064"></a>00064 uint16_t        DCPU_GetO(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu);
-<a name="l00065"></a>00065 uint16_t        DCPU_GetMemory(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu, uint16_t address);
-<a name="l00066"></a>00066 
-<a name="l00067"></a>00067 <span class="keywordtype">void</span>            DCPU_PrintState(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu);
-<a name="l00068"></a>00068 <span class="keywordtype">void</span>            DCPU_Dump(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu, uint16_t start, <span class="keywordtype">size_t</span> length);
-<a name="l00069"></a>00069 
-<a name="l00070"></a>00070 <span class="keywordtype">void</span>            DCPU_StepCycle(<a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu, <span class="keywordtype">size_t</span> num_cycles);
-<a name="l00071"></a>00071 <span class="keywordtype">size_t</span>          DCPU_StepInstruction(<a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu);
-<a name="l00072"></a>00072 <span class="keywordtype">size_t</span>          DCPU_StepUntilStuck(<a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated CPU.">DCPU_State</a> *cpu);
-<a name="l00073"></a>00073 
-<a name="l00074"></a>00074 <span class="preprocessor">#endif  </span><span class="comment">/* CADE_H */</span>
+<a name="l00045"></a><a class="code" href="cade_8h.html#a22133fb46985fa14c0df4096b19c4f8d">00045</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a>       <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a>;
+<a name="l00046"></a>00046 
+<a name="l00050"></a><a class="code" href="cade_8h.html#af3fb1116def8f282dfc9b86157643d77">00050</a> <span class="preprocessor">#define DCPU_STOP       (0x21 &lt;&lt; 10 | (0x1c &lt;&lt; 4) | 3)</span>
+<a name="l00051"></a>00051 <span class="preprocessor"></span>
+<a name="l00052"></a>00052 <span class="comment">/* -------------------------------------------------------------------------- */</span>
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054 <span class="keyword">const</span> <span class="keywordtype">char</span> *    <a class="code" href="cade_8c.html#aa0e7badb5071f22a3ee11e625bea680b" title="Returns a string containing the name of the indicated register.">DCPU_GetRegisterName</a>(<a class="code" href="cade_8h.html#a7c64f3936922fde21f3f804260bf73a3" title="Enumeration for the DCPU-16 registers.">DCPU_Register</a>);
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056 <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *    <a class="code" href="cade_8c.html#a3489ed4263a2524369bbff1ce64eecaf" title="Creates a new DCPU-16 instance.">DCPU_Create</a>(<span class="keywordtype">void</span>);
+<a name="l00057"></a>00057 <span class="keywordtype">void</span>            <a class="code" href="cade_8c.html#a799eafe905b6e7436b470ce404cf1d97" title="Destroys a DCPU-16 instance.">DCPU_Destroy</a>(<a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu);
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059 <span class="keywordtype">void</span>            <a class="code" href="cade_8c.html#a0b9510b64d76d68e0c408c68fbefc25a" title="Initializes (resets) the state of an emulated DCPU-16 instance.">DCPU_Init</a>(<a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu);
+<a name="l00060"></a>00060 <span class="keywordtype">void</span>            <a class="code" href="cade_8c.html#aaa5d197948df59d2e56aff49e3a44a1a" title="Loads some data into the emulated DPCU-16&#39;s memory.">DCPU_Load</a>(<a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu, uint16_t address, <span class="keyword">const</span> uint16_t *data, <span class="keywordtype">size_t</span> length);
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062 uint16_t        <a class="code" href="cade_8c.html#a0d5bfbe782cd3ecfa32aee076c333ddb" title="Read out the current value of a CPU register.">DCPU_GetRegister</a>(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu, <a class="code" href="cade_8h.html#a7c64f3936922fde21f3f804260bf73a3" title="Enumeration for the DCPU-16 registers.">DCPU_Register</a> reg);
+<a name="l00063"></a>00063 uint16_t        <a class="code" href="cade_8c.html#a5b3ab2553aed7146bffb13264fd040f4" title="Read out the current value of the program counter (PC).">DCPU_GetPC</a>(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu);
+<a name="l00064"></a>00064 uint16_t        <a class="code" href="cade_8c.html#aca0f59fa6aa9d6fca73e71b3cc82dadc" title="Read out the current value of the stack pointer (SP).">DCPU_GetSP</a>(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu);
+<a name="l00065"></a>00065 uint16_t        <a class="code" href="cade_8c.html#af3eb2b5718db96eb569dd822d245b1a8" title="Read out the current value of the overflow register (O).">DCPU_GetO</a>(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu);
+<a name="l00066"></a>00066 uint16_t        <a class="code" href="cade_8c.html#aea14396d5ee7dee57543d8e3beadd07c" title="Read out the current contents of a word of memory.">DCPU_GetMemory</a>(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu, uint16_t address);
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068 <span class="keywordtype">void</span>            <a class="code" href="cade_8c.html#a63c0fc1ea742d38e8a3202854acbac61" title="Prints the state of the emulated DCPU-16 instance.">DCPU_PrintState</a>(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu);
+<a name="l00069"></a>00069 <span class="keywordtype">void</span>            <a class="code" href="cade_8c.html#aae29e29510d7786fa2470878fd5c0acd" title="Very primitive memory-dumping.">DCPU_Dump</a>(<span class="keyword">const</span> <a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu, uint16_t start, <span class="keywordtype">size_t</span> length);
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071 <span class="keywordtype">void</span>            <a class="code" href="cade_8c.html#ad3eaeb3141afd0954d988a3fc4f2f1d7" title="Execute a fixed number of instructions.">DCPU_StepCycles</a>(<a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu, <span class="keywordtype">size_t</span> num_cycles);
+<a name="l00072"></a>00072 <span class="keywordtype">size_t</span>          <a class="code" href="cade_8c.html#ae1b6b89cffa7257df32ba204b58a655e" title="Execute a single whole instruction.">DCPU_StepInstruction</a>(<a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu);
+<a name="l00073"></a>00073 <span class="keywordtype">size_t</span>          <a class="code" href="cade_8c.html#aadeff3717a4773da9bba5efdcca6422b" title="Execute until the CPU seems &quot;stuck&quot;.">DCPU_StepUntilStuck</a>(<a class="code" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a> *cpu);
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075 <span class="preprocessor">#endif  </span><span class="comment">/* CADE_H */</span>
 </pre></div></div>
 </div>
-<hr class="footer"/><address class="footer"><small>Generated on Sun Apr 15 2012 18:19:04 for Cade by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun Apr 15 2012 18:59:08 for Cade by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

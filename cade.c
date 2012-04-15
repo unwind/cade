@@ -27,29 +27,9 @@
  * See the public API documentation in cade.h.
 */
 
-/*
-Basic opcodes: (4 bits)
-    0x0: non-basic instruction - see below
-    0x1: SET a, b - sets a to b
-    0x2: ADD a, b - sets a to a+b, sets O to 0x0001 if there's an overflow, 0x0 otherwise
-    0x3: SUB a, b - sets a to a-b, sets O to 0xffff if there's an underflow, 0x0 otherwise
-    0x4: MUL a, b - sets a to a*b, sets O to ((a*b)>>16)&0xffff
-    0x5: DIV a, b - sets a to a/b, sets O to ((a<<16)/b)&0xffff. if b==0, sets a and O to 0 instead.
-    0x6: MOD a, b - sets a to a%b. if b==0, sets a to 0 instead.
-    0x7: SHL a, b - sets a to a<<b, sets O to ((a<<b)>>16)&0xffff
-    0x8: SHR a, b - sets a to a>>b, sets O to ((a<<16)>>b)&0xffff
-    0x9: AND a, b - sets a to a&b
-    0xa: BOR a, b - sets a to a|b
-    0xb: XOR a, b - sets a to a^b
-    0xc: IFE a, b - performs next instruction only if a==b
-    0xd: IFN a, b - performs next instruction only if a!=b
-    0xe: IFG a, b - performs next instruction only if a>b
-    0xf: IFB a, b - performs next instruction only if (a&b)!=0
-    
- SET, AND, BOR and XOR take 1 cycle, plus the cost of a and b
- ADD, SUB, MUL, SHR, and SHL take 2 cycles, plus the cost of a and b
- DIV and MOD take 3 cycles, plus the cost of a and b
- IFE, IFN, IFG, IFB take 2 cycles, plus the cost of a and b, plus 1 if the test fails
+/** \brief The basic opcodes for the processor.
+ *
+ * Basic opcodes always have two values \c a and \c b, and typically change \c a.
 */
 typedef enum {
 	OP_NOBASIC = 0,
@@ -70,10 +50,17 @@ typedef enum {
 	OP_IFB
 } DCPU_BasicOp;
 
+/** \brief The extended opcodes for the processor.
+ * 
+ * Extended opcodes have only one value, as opposed to two (\c a and \c b) for the basic ones.
+*/
 typedef enum {
 	XOP_JSR = 1,
 } DCPU_ExtendedOp;
 
+/** \brief Enumeration of the various value types, this is what is generally
+ * encoded in instructions where values are needed. The literal range is excluded.
+*/
 typedef enum {
 	VAL_REG_A = 0,
 	VAL_REG_B,
@@ -111,17 +98,31 @@ typedef enum {
 
 typedef struct Thunk	Thunk;
 
+/** \brief A wrapped function pointer.
+ *
+ * Instances of this struct are used to represent what the emulator
+ * should on the next clock cycle. It's basically a work-around for
+ * the problem of defining a pointer to a function that returns
+ * a value of its own type.
+*/
 struct Thunk
 {
-	Thunk	(*execute)(DCPU_State *cpu);
+	Thunk	(*execute)(DCPU_State *cpu);		/**! Execute a single emulated cycle. */
 };
 
+/** \brief The size of the emulated DCPU-16's memory. */
 #define	MEM_SIZE	0x10000
 
-/** \brief Internal representation of the state of the emulated CPU. */
+/** \brief Internal representation of the state of the emulated DCPU-16.
+ *
+ * This structure is not public, use the API to access the state of
+ * the emulated DCPU-16.
+*/
 struct DCPU_State {
 	uint16_t	registers[DCPU_REG_COUNT];	/**< The registers, indexed by DCPU_Register. */
-	uint16_t	sp, pc, o;			/**< Special registers. */
+	uint16_t	sp;				/**< The stack pointer. */
+	uint16_t	pc;				/**< The program counter. */
+	uint16_t	o;				/**< The overflow register. */
 	uint16_t	memory[MEM_SIZE];		/**< The machine's memory. */
 
 	Thunk		cycle;				/**< Function to execute for next clock cycle. */
@@ -564,11 +565,22 @@ void DCPU_Init(DCPU_State *cpu)
 	cpu->cycle.execute = cycle_fetch;
 }
 
+/** \brief Loads some data into the emulated DPCU-16's memory.
+ *
+ * \param address The address where the first word will be loaded.
+ * \param data Pointer to data to load from.
+ * \param length The number of words to load.
+*/
 void DCPU_Load(DCPU_State *cpu, uint16_t address, const uint16_t *data, size_t length)
 {
 	memcpy(cpu->memory + address, data, length * sizeof *data);
 }
 
+/** \brief Prints the state of the emulated DCPU-16 instance.
+ *
+ * The contents of all registers, including the program counter, stack pointer
+ * and overflow register, are printed.
+*/
 void DCPU_PrintState(const DCPU_State *cpu)
 {
 	const char	*reg_names = "ABCXYZIJ";
@@ -585,6 +597,14 @@ void DCPU_PrintState(const DCPU_State *cpu)
 	printf("\n");
 }
 
+/** \brief Very primitive memory-dumping.
+ *
+ * Prints contents of the emulated DCPU-16's memory in a fantastically simplistic format
+ * with one word per line.
+ *
+ * \param start The start address.
+ * \param length The number of words to print.
+*/
 void DCPU_Dump(const DCPU_State *cpu, uint16_t start, size_t length)
 {
 	for(; length > 0; --length)
@@ -596,6 +616,10 @@ void DCPU_Dump(const DCPU_State *cpu, uint16_t start, size_t length)
 
 /* -------------------------------------------------------------------------- */
 
+/** \brief Read out the current value of a CPU register.
+ *
+ * \return The indicated register's value.
+*/
 uint16_t DCPU_GetRegister(const DCPU_State *cpu, DCPU_Register reg)
 {
 	if(cpu != NULL && reg < DCPU_REG_COUNT)
@@ -603,21 +627,39 @@ uint16_t DCPU_GetRegister(const DCPU_State *cpu, DCPU_Register reg)
 	return 0;
 }
 
+/** \brief Read out the current value of the program counter (\c PC).
+ *
+ * \return The program counter's value.
+*/
 uint16_t DCPU_GetPC(const DCPU_State *cpu)
 {
 	return cpu != NULL ? cpu->pc : 0;
 }
 
+/** \brief Read out the current value of the stack pointer (\c SP).
+ *
+ * \return The stack pointer's value.
+*/
 uint16_t DCPU_GetSP(const DCPU_State *cpu)
 {
 	return cpu != NULL ? cpu->sp : 0;
 }
 
+/** \brief Read out the current value of the overflow register (\c O).
+ *
+ * \return The O register's value.
+*/
 uint16_t DCPU_GetO(const DCPU_State *cpu)
 {
 	return cpu != NULL ? cpu->o : 0;
 }
 
+/** \brief Read out the current contents of a word of memory.
+ *
+ * \param address The desired address to read out.
+ *
+ * \return The indicated word's contents.
+*/
 uint16_t DCPU_GetMemory(const DCPU_State *cpu, uint16_t address)
 {
 	return cpu != NULL ? cpu->memory[address] : 0;
@@ -639,6 +681,14 @@ void DCPU_StepCycles(DCPU_State *cpu, size_t num_cycles)
 		cpu->cycle = cpu->cycle.execute(cpu);
 }
 
+/** \brief Execute a single whole instruction.
+ *
+ * This runs the emulated DCPU-16 until one instruction has been completed.
+ * If the CPU is already in the middle of executing an instruction when this
+ * is called, it will finish that instruction but not start a new.
+ *
+ * \return The number of clock cycles spent.
+*/
 size_t DCPU_StepInstruction(DCPU_State *cpu)
 {
 	size_t	num_cycles = 0;
@@ -651,6 +701,22 @@ size_t DCPU_StepInstruction(DCPU_State *cpu)
 	return num_cycles;
 }
 
+/** \brief Execute until the CPU seems "stuck".
+ *
+ * Runs the emulated DCPU-16 until it appears "stuck". The DCPU-16 is considered
+ * to be stuck if executing a full instruction leaves the program counter (\c PC)
+ * register unchanged. This means the current instruction is a 1-instruction
+ * infinite loop, and since the DCPU doesn't have interrupts there's no way for it
+ * to ever exit the loop.
+ *
+ * It's of course possible to come up with any number of n-instruction infinite
+ * loops that will \em not be detected by this function, so beware.
+ * 
+ * Note that it's possible for this to never return, since there is no guarantee
+ * that the DCPU-16 will end up in a stuck state as defined by the above.
+ *
+ * \return The number of clock cycles spent until an infinite loop was detected.
+*/
 size_t DCPU_StepUntilStuck(DCPU_State *cpu)
 {
 	size_t	num_cycles = 0;

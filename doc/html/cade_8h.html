@@ -56,7 +56,8 @@ Defines</h2></td></tr>
 <tr><td colspan="2"><h2><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a22133fb46985fa14c0df4096b19c4f8d"></a><!-- doxytag: member="cade.h::DCPU_State" ref="a22133fb46985fa14c0df4096b19c4f8d" args="" -->
-typedef struct <a class="el" href="structDCPU__State.html">DCPU_State</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_State</b></td></tr>
+typedef struct <a class="el" href="structDCPU__State.html">DCPU_State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#a22133fb46985fa14c0df4096b19c4f8d">DCPU_State</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Pre-declaration of the <code><a class="el" href="structDCPU__State.html" title="Internal representation of the state of the emulated DCPU-16.">DCPU_State</a></code> structure, an opaque representation of the CPU's state. <br/></td></tr>
 <tr><td colspan="2"><h2><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#a7c64f3936922fde21f3f804260bf73a3">DCPU_Register</a> { <br/>
@@ -85,28 +86,28 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys a DCPU-16 instance. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#a0b9510b64d76d68e0c408c68fbefc25a">DCPU_Init</a> (<a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes (resets) the state of an emulated DCPU-16 instance.  <a href="#a0b9510b64d76d68e0c408c68fbefc25a"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaa5d197948df59d2e56aff49e3a44a1a"></a><!-- doxytag: member="cade.h::DCPU_Load" ref="aaa5d197948df59d2e56aff49e3a44a1a" args="(DCPU_State *cpu, uint16_t address, const uint16_t *data, size_t length)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_Load</b> (<a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu, uint16_t address, const uint16_t *data, size_t length)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0d5bfbe782cd3ecfa32aee076c333ddb"></a><!-- doxytag: member="cade.h::DCPU_GetRegister" ref="a0d5bfbe782cd3ecfa32aee076c333ddb" args="(const DCPU_State *cpu, DCPU_Register reg)" -->
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_GetRegister</b> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu, <a class="el" href="cade_8h.html#a7c64f3936922fde21f3f804260bf73a3">DCPU_Register</a> reg)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b3ab2553aed7146bffb13264fd040f4"></a><!-- doxytag: member="cade.h::DCPU_GetPC" ref="a5b3ab2553aed7146bffb13264fd040f4" args="(const DCPU_State *cpu)" -->
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_GetPC</b> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca0f59fa6aa9d6fca73e71b3cc82dadc"></a><!-- doxytag: member="cade.h::DCPU_GetSP" ref="aca0f59fa6aa9d6fca73e71b3cc82dadc" args="(const DCPU_State *cpu)" -->
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_GetSP</b> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af3eb2b5718db96eb569dd822d245b1a8"></a><!-- doxytag: member="cade.h::DCPU_GetO" ref="af3eb2b5718db96eb569dd822d245b1a8" args="(const DCPU_State *cpu)" -->
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_GetO</b> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aea14396d5ee7dee57543d8e3beadd07c"></a><!-- doxytag: member="cade.h::DCPU_GetMemory" ref="aea14396d5ee7dee57543d8e3beadd07c" args="(const DCPU_State *cpu, uint16_t address)" -->
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_GetMemory</b> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu, uint16_t address)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a63c0fc1ea742d38e8a3202854acbac61"></a><!-- doxytag: member="cade.h::DCPU_PrintState" ref="a63c0fc1ea742d38e8a3202854acbac61" args="(const DCPU_State *cpu)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_PrintState</b> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aae29e29510d7786fa2470878fd5c0acd"></a><!-- doxytag: member="cade.h::DCPU_Dump" ref="aae29e29510d7786fa2470878fd5c0acd" args="(const DCPU_State *cpu, uint16_t start, size_t length)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_Dump</b> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu, uint16_t start, size_t length)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a10115b5c9dfd8fa91dd7e8281d33fc4b"></a><!-- doxytag: member="cade.h::DCPU_StepCycle" ref="a10115b5c9dfd8fa91dd7e8281d33fc4b" args="(DCPU_State *cpu, size_t num_cycles)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_StepCycle</b> (<a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu, size_t num_cycles)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae1b6b89cffa7257df32ba204b58a655e"></a><!-- doxytag: member="cade.h::DCPU_StepInstruction" ref="ae1b6b89cffa7257df32ba204b58a655e" args="(DCPU_State *cpu)" -->
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_StepInstruction</b> (<a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aadeff3717a4773da9bba5efdcca6422b"></a><!-- doxytag: member="cade.h::DCPU_StepUntilStuck" ref="aadeff3717a4773da9bba5efdcca6422b" args="(DCPU_State *cpu)" -->
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_StepUntilStuck</b> (<a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#aaa5d197948df59d2e56aff49e3a44a1a">DCPU_Load</a> (<a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu, uint16_t address, const uint16_t *data, size_t length)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads some data into the emulated DPCU-16's memory.  <a href="#aaa5d197948df59d2e56aff49e3a44a1a"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#a0d5bfbe782cd3ecfa32aee076c333ddb">DCPU_GetRegister</a> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu, <a class="el" href="cade_8h.html#a7c64f3936922fde21f3f804260bf73a3">DCPU_Register</a> reg)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Read out the current value of a CPU register.  <a href="#a0d5bfbe782cd3ecfa32aee076c333ddb"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#a5b3ab2553aed7146bffb13264fd040f4">DCPU_GetPC</a> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Read out the current value of the program counter (<code>PC</code>).  <a href="#a5b3ab2553aed7146bffb13264fd040f4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#aca0f59fa6aa9d6fca73e71b3cc82dadc">DCPU_GetSP</a> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Read out the current value of the stack pointer (<code>SP</code>).  <a href="#aca0f59fa6aa9d6fca73e71b3cc82dadc"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#af3eb2b5718db96eb569dd822d245b1a8">DCPU_GetO</a> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Read out the current value of the overflow register (<code>O</code>).  <a href="#af3eb2b5718db96eb569dd822d245b1a8"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#aea14396d5ee7dee57543d8e3beadd07c">DCPU_GetMemory</a> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu, uint16_t address)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Read out the current contents of a word of memory.  <a href="#aea14396d5ee7dee57543d8e3beadd07c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#a63c0fc1ea742d38e8a3202854acbac61">DCPU_PrintState</a> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the state of the emulated DCPU-16 instance.  <a href="#a63c0fc1ea742d38e8a3202854acbac61"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#aae29e29510d7786fa2470878fd5c0acd">DCPU_Dump</a> (const <a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu, uint16_t start, size_t length)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Very primitive memory-dumping.  <a href="#aae29e29510d7786fa2470878fd5c0acd"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#ad3eaeb3141afd0954d988a3fc4f2f1d7">DCPU_StepCycles</a> (<a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu, size_t num_cycles)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a fixed number of instructions.  <a href="#ad3eaeb3141afd0954d988a3fc4f2f1d7"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#ae1b6b89cffa7257df32ba204b58a655e">DCPU_StepInstruction</a> (<a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a single whole instruction.  <a href="#ae1b6b89cffa7257df32ba204b58a655e"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cade_8h.html#aadeff3717a4773da9bba5efdcca6422b">DCPU_StepUntilStuck</a> (<a class="el" href="structDCPU__State.html">DCPU_State</a> *cpu)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute until the CPU seems "stuck".  <a href="#aadeff3717a4773da9bba5efdcca6422b"></a><br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>This file declares the public API for the Cade DCPU-16 emulator. </p>
@@ -146,6 +147,155 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_StepUntilStuck
 
 </div>
 </div>
+<a class="anchor" id="aae29e29510d7786fa2470878fd5c0acd"></a><!-- doxytag: member="cade.h::DCPU_Dump" ref="aae29e29510d7786fa2470878fd5c0acd" args="(const DCPU_State *cpu, uint16_t start, size_t length)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DCPU_Dump </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structDCPU__State.html">DCPU_State</a> *&#160;</td>
+          <td class="paramname"><em>cpu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>length</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Very primitive memory-dumping. </p>
+<p>Prints contents of the emulated DCPU-16's memory in a fantastically simplistic format with one word per line.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">start</td><td>The start address. </td></tr>
+    <tr><td class="paramname">length</td><td>The number of words to print. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aea14396d5ee7dee57543d8e3beadd07c"></a><!-- doxytag: member="cade.h::DCPU_GetMemory" ref="aea14396d5ee7dee57543d8e3beadd07c" args="(const DCPU_State *cpu, uint16_t address)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t DCPU_GetMemory </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structDCPU__State.html">DCPU_State</a> *&#160;</td>
+          <td class="paramname"><em>cpu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>address</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Read out the current contents of a word of memory. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>The desired address to read out.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The indicated word's contents. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af3eb2b5718db96eb569dd822d245b1a8"></a><!-- doxytag: member="cade.h::DCPU_GetO" ref="af3eb2b5718db96eb569dd822d245b1a8" args="(const DCPU_State *cpu)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t DCPU_GetO </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structDCPU__State.html">DCPU_State</a> *&#160;</td>
+          <td class="paramname"><em>cpu</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Read out the current value of the overflow register (<code>O</code>). </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The O register's value. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5b3ab2553aed7146bffb13264fd040f4"></a><!-- doxytag: member="cade.h::DCPU_GetPC" ref="a5b3ab2553aed7146bffb13264fd040f4" args="(const DCPU_State *cpu)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t DCPU_GetPC </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structDCPU__State.html">DCPU_State</a> *&#160;</td>
+          <td class="paramname"><em>cpu</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Read out the current value of the program counter (<code>PC</code>). </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The program counter's value. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a0d5bfbe782cd3ecfa32aee076c333ddb"></a><!-- doxytag: member="cade.h::DCPU_GetRegister" ref="a0d5bfbe782cd3ecfa32aee076c333ddb" args="(const DCPU_State *cpu, DCPU_Register reg)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t DCPU_GetRegister </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structDCPU__State.html">DCPU_State</a> *&#160;</td>
+          <td class="paramname"><em>cpu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="cade_8h.html#a7c64f3936922fde21f3f804260bf73a3">DCPU_Register</a>&#160;</td>
+          <td class="paramname"><em>reg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Read out the current value of a CPU register. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The indicated register's value. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a4fc70add02a32273323c2a43209972e4"></a><!-- doxytag: member="cade.h::DCPU_GetRegisterName" ref="a4fc70add02a32273323c2a43209972e4" args="(DCPU_Register)" -->
 <div class="memitem">
 <div class="memproto">
@@ -163,6 +313,26 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_StepUntilStuck
 
 <p>Returns a string containing the name of the indicated register. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>A constant string (owned by Cade, should not be deallocated by caller). </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aca0f59fa6aa9d6fca73e71b3cc82dadc"></a><!-- doxytag: member="cade.h::DCPU_GetSP" ref="aca0f59fa6aa9d6fca73e71b3cc82dadc" args="(const DCPU_State *cpu)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t DCPU_GetSP </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structDCPU__State.html">DCPU_State</a> *&#160;</td>
+          <td class="paramname"><em>cpu</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Read out the current value of the stack pointer (<code>SP</code>). </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The stack pointer's value. </dd></dl>
 
 </div>
 </div>
@@ -186,8 +356,158 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>DCPU_StepUntilStuck
 
 </div>
 </div>
+<a class="anchor" id="aaa5d197948df59d2e56aff49e3a44a1a"></a><!-- doxytag: member="cade.h::DCPU_Load" ref="aaa5d197948df59d2e56aff49e3a44a1a" args="(DCPU_State *cpu, uint16_t address, const uint16_t *data, size_t length)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DCPU_Load </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structDCPU__State.html">DCPU_State</a> *&#160;</td>
+          <td class="paramname"><em>cpu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint16_t *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>length</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
 </div>
-<hr class="footer"/><address class="footer"><small>Generated on Sun Apr 15 2012 18:19:04 for Cade by&#160;
+<div class="memdoc">
+
+<p>Loads some data into the emulated DPCU-16's memory. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>The address where the first word will be loaded. </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to data to load from. </td></tr>
+    <tr><td class="paramname">length</td><td>The number of words to load. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a63c0fc1ea742d38e8a3202854acbac61"></a><!-- doxytag: member="cade.h::DCPU_PrintState" ref="a63c0fc1ea742d38e8a3202854acbac61" args="(const DCPU_State *cpu)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DCPU_PrintState </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structDCPU__State.html">DCPU_State</a> *&#160;</td>
+          <td class="paramname"><em>cpu</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Prints the state of the emulated DCPU-16 instance. </p>
+<p>The contents of all registers, including the program counter, stack pointer and overflow register, are printed. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad3eaeb3141afd0954d988a3fc4f2f1d7"></a><!-- doxytag: member="cade.h::DCPU_StepCycles" ref="ad3eaeb3141afd0954d988a3fc4f2f1d7" args="(DCPU_State *cpu, size_t num_cycles)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DCPU_StepCycles </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structDCPU__State.html">DCPU_State</a> *&#160;</td>
+          <td class="paramname"><em>cpu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>num_cycles</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Execute a fixed number of instructions. </p>
+<p>This function runs the emulated DCPU-16 for a given number of instruction cycles.</p>
+<p>Note that this might leave the processor "mid-instruction".</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">num_cycles</td><td>The number of clock cycles to run the processor for. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ae1b6b89cffa7257df32ba204b58a655e"></a><!-- doxytag: member="cade.h::DCPU_StepInstruction" ref="ae1b6b89cffa7257df32ba204b58a655e" args="(DCPU_State *cpu)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t DCPU_StepInstruction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structDCPU__State.html">DCPU_State</a> *&#160;</td>
+          <td class="paramname"><em>cpu</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Execute a single whole instruction. </p>
+<p>This runs the emulated DCPU-16 until one instruction has been completed. If the CPU is already in the middle of executing an instruction when this is called, it will finish that instruction but not start a new.</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The number of clock cycles spent. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aadeff3717a4773da9bba5efdcca6422b"></a><!-- doxytag: member="cade.h::DCPU_StepUntilStuck" ref="aadeff3717a4773da9bba5efdcca6422b" args="(DCPU_State *cpu)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t DCPU_StepUntilStuck </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structDCPU__State.html">DCPU_State</a> *&#160;</td>
+          <td class="paramname"><em>cpu</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Execute until the CPU seems "stuck". </p>
+<p>Runs the emulated DCPU-16 until it appears "stuck". The DCPU-16 is considered to be stuck if executing a full instruction leaves the program counter (<code>PC</code>) register unchanged. This means the current instruction is a 1-instruction infinite loop, and since the DCPU doesn't have interrupts there's no way for it to ever exit the loop.</p>
+<p>It's of course possible to come up with any number of n-instruction infinite loops that will <em>not</em> be detected by this function, so beware.</p>
+<p>Note that it's possible for this to never return, since there is no guarantee that the DCPU-16 will end up in a stuck state as defined by the above.</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The number of clock cycles spent until an infinite loop was detected. </dd></dl>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address class="footer"><small>Generated on Sun Apr 15 2012 18:59:08 for Cade by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>
