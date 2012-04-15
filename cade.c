@@ -625,6 +625,14 @@ uint16_t DCPU_GetMemory(const DCPU_State *cpu, uint16_t address)
 
 /* -------------------------------------------------------------------------- */
 
+/** \brief Execute a fixed number of instructions.
+ *
+ * This function runs the emulated DCPU-16 for a given number of instruction cycles.
+ *
+ * Note that this might leave the processor "mid-instruction".
+ *
+ * \param num_cycles The number of clock cycles to run the processor for.
+*/
 void DCPU_StepCycles(DCPU_State *cpu, size_t num_cycles)
 {
 	for(; num_cycles != 0; --num_cycles)

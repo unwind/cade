@@ -67,7 +67,7 @@ uint16_t	DCPU_GetMemory(const DCPU_State *cpu, uint16_t address);
 void		DCPU_PrintState(const DCPU_State *cpu);
 void		DCPU_Dump(const DCPU_State *cpu, uint16_t start, size_t length);
 
-void		DCPU_StepCycle(DCPU_State *cpu, size_t num_cycles);
+void		DCPU_StepCycles(DCPU_State *cpu, size_t num_cycles);
 size_t		DCPU_StepInstruction(DCPU_State *cpu);
 size_t		DCPU_StepUntilStuck(DCPU_State *cpu);
 
