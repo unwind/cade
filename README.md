@@ -12,6 +12,12 @@ It was developed just after Notch released the [first specs](http://0x10c.com/do
 It defines a minimalistic public API, so the hosting program *should* be able to implement I/O anyway, but it won't be as efficient as it would be if the emulator helped out more.
 
 
+API
+===
+Cade includes Doxygen-generated API documenation. It's not hosted anywhere at the moment, so while you can browse the static HTML files in the public
+repository, you can't actually view them as web pages except locally after cloning.
+
+
 Status
 ======
 Cade is mostly a(nother) fun project on the side for me, it's not very high on my list of life priorites. It's on GitHub just to join the mini-bandwagon of DCPU-16-related projects; it's always fun to group. Please think twice (and fork!) before deciding on using Cade as the core CPU emulation technology for anything serious.
