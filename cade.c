@@ -448,6 +448,7 @@ static Thunk cycle_fetch(DCPU_State *cpu)
 		break;
 	}
 
+	/* Now, evaluate actual opcode. */
 	switch((DCPU_BasicOp) (cpu->inst & 0xf))
 	{
 	case OP_NOBASIC:
